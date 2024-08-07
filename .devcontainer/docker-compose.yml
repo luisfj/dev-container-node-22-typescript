@@ -1,0 +1,21 @@
+version: '3.8'
+
+networks:
+  dev:
+    external: true
+
+services:
+  front:
+    container_name: dev_cont_import_ofx_front
+    image: mcr.microsoft.com/devcontainers/typescript-node:1-22-bookworm
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ../..:/workspaces:cached
+
+    # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity
+
+    # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
+    networks:
+      - dev
